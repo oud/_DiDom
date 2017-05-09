@@ -1,0 +1,135 @@
+
+entity Freelancer {
+	registration_date LocalDate
+}
+
+entity Client {
+	registration_date LocalDate
+}
+
+relationship OneToOne {
+	Freelancer{login} to User,
+    Client{login} to User
+}
+
+entity Payment_type {
+	type_name String
+}
+
+entity Skill {
+	skill_name String
+}
+
+relationship OneToMany {
+	Job{main_skill} to Skill
+}
+
+entity Has_skill{ 
+}
+entity Other_skills{ 
+}
+
+relationship OneToMany {
+	Job to Other_skills,
+    Skill to Other_skills,
+    Skill to Has_skill,
+    Freelancer to Has_skill
+}
+
+relationship ManyToOne {
+	Job{payment_type} to Payment_type
+}
+
+entity Job {
+	description String,
+    payment_amont BigDecimal,
+    expected_duration Duration,
+    complexity Complexity
+}
+
+relationship OneToMany {
+	Client{job} to Job{client}
+}
+
+enum Duration {
+	HOUR, DAY, MONTH
+}
+
+enum Complexity {
+	EASY, INTERMEDIATE, HARD
+}
+
+// an ignored comment
+/** not an ignored comment */
+entity Location {
+	streetAddress String,
+	postalCode String,
+	city String,
+	stateProvince String
+}
+
+entity Country {
+	countryName String
+}
+
+relationship ManyToOne {
+	Client{address} to Location,
+    Freelancer{address} to Location
+}
+
+relationship OneToOne {
+	Location{country} to Country
+}
+
+entity Proposal_status_catalog {
+	status_name String
+}
+
+entity Proposal {
+	proposal_time LocalDate,
+    payment_amount BigDecimal,
+    client_grade Integer,
+    client_comment String,
+    freelancer_grade Integer,
+    freelancer_comment String
+}
+
+entity Contract {
+	start_time LocalDate,
+    end_time LocalDate,
+    payment_amount BigDecimal
+}
+
+entity Message {
+	message_time LocalDate,
+    message_text String    
+}
+
+entity Attachment {
+	attachment_link String
+}
+
+relationship ManyToOne {
+	Contract{client} to Client,
+    Contract{freelancer} to Freelancer,
+    Contract{proposal} to Proposal,
+    Contract{payment_type} to Payment_type,
+    Proposal{job} to Job,
+    Proposal{freelancer} to Freelancer,
+    Proposal{payment_type} to Payment_type,
+    Proposal{current_proposal_status(status_name)} to Proposal_status_catalog,
+    Message{freelancer} to Freelancer,
+    Message{client} to Client,
+    Message{proposal} to Proposal,
+    Message{proposal_status_catalog} to Proposal_status_catalog,
+    Attachment{message} to Message    
+}
+
+// Set pagination options
+paginate Client, Freelancer, Job, Proposal, Contract with infinite-scroll
+
+dto * with mapstruct
+
+// Set service options to all except few
+service Client, Freelancer, Job, Proposal, Contract, Skill with serviceImpl
+
