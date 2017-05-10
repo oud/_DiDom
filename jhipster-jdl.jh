@@ -1,57 +1,52 @@
 
 entity Freelancer {
-	registration_date LocalDate required 
+	image ImageBlob 
 }
 
 entity Client {
-	registration_date LocalDate required 
+	image ImageBlob 
 }
 
 relationship ManyToOne {
-	Freelancer{user} to User    
+	Freelancer{user(login)} to User    
 }
 
 relationship ManyToOne {
-	Client{user} to User
+	Client{user(login)} to User
 }
 
-entity Payment_type {
-	type_name String required 
+entity PaymentType {
+	typeName String required 
 }
 
 entity Skill {
-	skill_name String 
-}
-
-relationship OneToMany {
-	Job{main_skill} to Skill
-}
-
-entity Has_skill{ 
-}
-entity Other_skills{ 
-}
-
-relationship OneToMany {
-	Job to Other_skills,
-    Skill to Other_skills,
-    Skill to Has_skill,
-    Freelancer to Has_skill
+	skillName String required
 }
 
 relationship ManyToOne {
-	Job{payment_type} to Payment_type
+	//Job{mainSkill(skillName)} to Skill{job}
+}
+
+
+relationship ManyToMany {
+	//Job{skill} to Skill{job},
+	Freelancer{skill} to Skill{freelancer}
+}
+
+relationship ManyToOne {
+	Job{paymentType} to PaymentType{job}
 }
 
 entity Job {
-	description String required ,
-    payment_amont BigDecimal required ,
-    expected_duration Duration required ,
+	title String required,
+    description String required ,
+    paymentAmont BigDecimal required ,
+    expectedDuration Duration required ,
     complexity Complexity
 }
 
 relationship OneToMany {
-	Client{job} to Job{client}
+	Client{job(title)} to Job{client}
 }
 
 enum Duration {
@@ -62,8 +57,7 @@ enum Complexity {
 	EASY, INTERMEDIATE, HARD
 }
 
-// an ignored comment
-/** not an ignored comment */
+
 entity Location {
 	streetAddress String,
 	postalCode String required,
@@ -76,56 +70,56 @@ entity Country {
 }
 
 relationship ManyToOne {
-	Client{address} to Location,
-    Freelancer{address} to Location
+	Client{location} to Location{client},
+    Freelancer{location} to Location{freelancer}
 }
 
 relationship OneToOne {
-	Location{country} to Country
+	Location{country(countryName)} to Country{location}
 }
 
-entity Proposal_status_catalog {
-	status_name String
+entity ProposalStatusCatalog {
+	statusName String
 }
 
 entity Proposal {
-    proposal_time LocalDate required ,
-    payment_amount BigDecimal required ,
-    client_grade Integer,
-    client_comment String,
-    freelancer_grade Integer,
-    freelancer_comment String
+    proposalTime ZonedDateTime required ,
+    paymentAmount BigDecimal required ,
+    clientGrade Integer,
+    clientComment String,
+    freelancerGrade Integer,
+    freelancerComment String
 }
 
 entity Contract {
-	start_time LocalDate required ,
-    end_time LocalDate required ,
-    payment_amount BigDecimal required 
+	startTime ZonedDateTime required ,
+    endTime ZonedDateTime required ,
+    paymentAmount BigDecimal required 
 }
 
 entity Message {
-	message_time LocalDate,
-    message_text String    
+	messageTime ZonedDateTime,
+    messageText String    
 }
 
 entity Attachment {
-	attachment_link String
+	attachmentLink String
 }
 
 relationship ManyToOne {
-	Contract{client} to Client,
-    Contract{freelancer} to Freelancer,
-    Contract{proposal} to Proposal,
-    Contract{payment_type} to Payment_type,
-    Proposal{job} to Job,
-    Proposal{freelancer} to Freelancer,
-    Proposal{payment_type} to Payment_type,
-    Proposal{current_proposal_status(status_name)} to Proposal_status_catalog,
-    Message{freelancer} to Freelancer,
-    Message{client} to Client,
-    Message{proposal} to Proposal,
-    Message{proposal_status_catalog} to Proposal_status_catalog,
-    Attachment{message} to Message    
+	Contract{client} to Client{contract},
+    Contract{freelancer} to Freelancer{contract},
+    Contract{proposal} to Proposal{contract},
+    Contract{paymentType} to PaymentType{contract},
+    Proposal{job} to Job{proposal},
+    Proposal{freelancer} to Freelancer{proposal},
+    Proposal{paymentType} to PaymentType{proposal},
+    Proposal{currentProposalStatus(statusName)} to ProposalStatusCatalog{proposal},
+    Message{freelancer} to Freelancer{message},
+    Message{client} to Client{message},
+    Message{proposal} to Proposal{message},
+    Message{proposalStatusCatalog(statusName)} to ProposalStatusCatalog{message},
+    Attachment{message} to Message{attachment}    
 }
 
 // Set pagination options
@@ -134,5 +128,5 @@ paginate Client, Freelancer, Job, Proposal, Contract with infinite-scroll
 dto * with mapstruct
 
 // Set service options to all except few
-service Client, Freelancer, Job, Proposal, Contract, Skill with serviceImpl
+service Client, Freelancer, Job, Proposal, Contract with serviceImpl
 

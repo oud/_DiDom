@@ -1,0 +1,26 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "freelancer",
+            "otherEntityName": "freelancer",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "skill"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "skillName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20170510134517",
+    "entityTableName": "skill",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "no"
+}

@@ -1,0 +1,59 @@
+
+<div *ngIf="job">
+    <h2><span>Job</span> {{job.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Title</span></dt>
+        <dd>
+            <span>{{job.title}}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+            <span>{{job.description}}</span>
+        </dd>
+        <dt><span>Payment Amont</span></dt>
+        <dd>
+            <span>{{job.paymentAmont}}</span>
+        </dd>
+        <dt><span>Expected Duration</span></dt>
+        <dd>
+            <span>{{job.expectedDuration}}</span>
+        </dd>
+        <dt><span>Complexity</span></dt>
+        <dd>
+            <span>{{job.complexity}}</span>
+        </dd>
+        <dt><span>Payment Type</span></dt>
+        <dd>
+            <div *ngIf="job.paymentTypeId">
+                <a [routerLink]="['/payment-type', job.paymentTypeId]">{{job.paymentTypeId}}</a>
+            </div>
+        </dd>
+        <dt><span>Client</span></dt>
+        <dd>
+            <div *ngIf="job.clientId">
+                <a [routerLink]="['/client', job.clientId]">{{job.clientId}}</a>
+            </div>
+        </dd>
+        <dt><span>Main Skill</span></dt>
+        <dd>
+            <div *ngIf="job.mainSkillId">
+                <a [routerLink]="['/skill', job.mainSkillId]">{{job.mainSkillSkillName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'job/'+ job.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

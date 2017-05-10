@@ -1,0 +1,22 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "message",
+            "otherEntityName": "message",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "attachmentLink",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170510134525",
+    "entityTableName": "attachment",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "no"
+}

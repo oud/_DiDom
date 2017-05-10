@@ -1,0 +1,57 @@
+
+<div *ngIf="contract">
+    <h2><span>Contract</span> {{contract.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Start Time</span></dt>
+        <dd>
+            <span>{{contract.startTime | date:'medium'}}</span>
+        </dd>
+        <dt><span>End Time</span></dt>
+        <dd>
+            <span>{{contract.endTime | date:'medium'}}</span>
+        </dd>
+        <dt><span>Payment Amount</span></dt>
+        <dd>
+            <span>{{contract.paymentAmount}}</span>
+        </dd>
+        <dt><span>Client</span></dt>
+        <dd>
+            <div *ngIf="contract.clientId">
+                <a [routerLink]="['/client', contract.clientId]">{{contract.clientId}}</a>
+            </div>
+        </dd>
+        <dt><span>Freelancer</span></dt>
+        <dd>
+            <div *ngIf="contract.freelancerId">
+                <a [routerLink]="['/freelancer', contract.freelancerId]">{{contract.freelancerId}}</a>
+            </div>
+        </dd>
+        <dt><span>Proposal</span></dt>
+        <dd>
+            <div *ngIf="contract.proposalId">
+                <a [routerLink]="['/proposal', contract.proposalId]">{{contract.proposalId}}</a>
+            </div>
+        </dd>
+        <dt><span>Payment Type</span></dt>
+        <dd>
+            <div *ngIf="contract.paymentTypeId">
+                <a [routerLink]="['/payment-type', contract.paymentTypeId]">{{contract.paymentTypeId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'contract/'+ contract.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

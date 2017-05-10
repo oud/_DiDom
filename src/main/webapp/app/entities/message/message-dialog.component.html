@@ -1,0 +1,66 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myMessageLabel">Create or edit a Message</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!message.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="message.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_messageTime">Message Time</label>
+            <div class="d-flex">
+                <input id="field_messageTime" type="datetime-local" class="form-control" name="messageTime" [(ngModel)]="message.messageTime"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_messageText">Message Text</label>
+            <input type="text" class="form-control" name="messageText" id="field_messageText"
+                [(ngModel)]="message.messageText"
+             />
+        </div>
+
+        <div class="form-group">
+            <label for="field_freelancer">Freelancer</label>
+            <select class="form-control" id="field_freelancer" name="freelancer" [(ngModel)]="message.freelancerId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="freelancerOption.id" *ngFor="let freelancerOption of freelancers; trackBy: trackFreelancerById">{{freelancerOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_client">Client</label>
+            <select class="form-control" id="field_client" name="client" [(ngModel)]="message.clientId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="clientOption.id" *ngFor="let clientOption of clients; trackBy: trackClientById">{{clientOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_proposal">Proposal</label>
+            <select class="form-control" id="field_proposal" name="proposal" [(ngModel)]="message.proposalId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="proposalOption.id" *ngFor="let proposalOption of proposals; trackBy: trackProposalById">{{proposalOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_proposalStatusCatalog">Proposal Status Catalog</label>
+            <select class="form-control" id="field_proposalStatusCatalog" name="proposalStatusCatalog" [(ngModel)]="message.proposalStatusCatalogId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="proposalStatusCatalogOption.id" *ngFor="let proposalStatusCatalogOption of proposalstatuscatalogs; trackBy: trackProposalStatusCatalogById">{{proposalStatusCatalogOption.statusName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

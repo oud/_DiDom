@@ -1,0 +1,41 @@
+
+<div *ngIf="freelancer">
+    <h2><span>Freelancer</span> {{freelancer.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Image</span></dt>
+        <dd>
+            <span>{{freelancer.image}}</span>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+            {{freelancer.userLogin}}
+        </dd>
+        <dt><span>Location</span></dt>
+        <dd>
+            <div *ngIf="freelancer.locationId">
+                <a [routerLink]="['/location', freelancer.locationId]">{{freelancer.locationId}}</a>
+            </div>
+        </dd>
+        <dt><span>Skill</span></dt>
+        <dd>
+            <span *ngFor="let skill of freelancer.skills; let last = last">
+                <a [routerLink]="['/skill', skill?.id ]">{{skill.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'freelancer/'+ freelancer.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

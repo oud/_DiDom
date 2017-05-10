@@ -1,0 +1,28 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "proposal",
+            "otherEntityName": "proposal",
+            "otherEntityRelationshipName": "currentProposalStatus"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "message",
+            "otherEntityName": "message",
+            "otherEntityRelationshipName": "proposalStatusCatalog"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "statusName",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170510134521",
+    "entityTableName": "proposal_status_catalog",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "no"
+}
